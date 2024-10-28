@@ -1,6 +1,6 @@
 
-const oracledb = require("oracledb");
-const nodemailer = require('nodemailer');
+// const oracledb = require("oracledb");
+// const nodemailer = require('nodemailer');
 
 // oracledb.initOracleClient({
 //     tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
@@ -18,174 +18,148 @@ const AVO = {
 
   const oracledb = require("oracledb");
   const nodemailer = require('nodemailer');
-  oracledb.initOracleClient({
-      tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
+  // oracledb.initOracleClient({
+  //     tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
     
-    });
+  //   });
   
   
-  
-    module.exports.getFamDetailReport = async function (req, res) {
-  try {
-    const{Fac,CC, RequestType,FAMNo_From,FamNo_To,OwnerID }=  req.body;
-    const connect = await oracledb.getConnection(AVO);
-    const query = `
-    SELECT DISTINCT *
-    FROM
-    (
-        SELECT
-          CF.FACTORY_NAME AS FACTORY ,
-          H.FAM_ASSET_CC,
-          H.FRH_FAM_NO,
-          1 AS iSEQ,
-          D.FRD_ASSET_CODE,
-          D.FRD_COMP,
-          D.FRD_OWNER_CC,
-          D.FRD_ASSET_NAME,
-          D.FRD_CODE_NO,
-          D.FRD_BOI_PROJ,
-          D.FRD_QTY,
-          D.FRD_INV_NO,
-          TO_CHAR( D.FRD_INV_DATE, 'DD/MM/YYYY' ) AS FRD_INV_DATE,
-          TRIM(TO_CHAR(D.FRD_ACQ_COST, '999,999,999,999,999,999,999.99')) AS FRD_ACQ_COST,
-          D.FRD_BOOK_VALUE,
-          D.FRD_NEW_CC,
-          R.FRT_TO_PROJ,
-          D.FRD_REMARK,
-          M.FFM_FLG,
-          H.FAM_REQ_STATUS
-        FROM
-        FAM_REQ_HEADER H
-          LEFT JOIN FAM_REQ_DETAIL D ON   D.FRD_FAM_NO = H.FRH_FAM_NO
-          LEFT JOIN FAM_REQ_TRANSFER R ON R.FRT_FAM_NO = H.FRH_FAM_NO
-        LEFT JOIN CUSR.CU_FACTORY_M CF ON CF.FACTORY_CODE = H.FAM_FACTORY
-        LEFT JOIN FAM_FLOW_MASTER M ON M.FFM_CODE = H.FAM_REQ_STATUS
-        WHERE 1=1 
-          AND(CF.FACTORY_CODE = '${Fac}' OR '${Fac}' IS NULL )
-          AND(D.FRD_OWNER_CC = '${CC}' OR '${CC}' IS NULL )
-          AND(H.FAM_REQ_TYPE = '${RequestType}' OR '${RequestType}' IS NULL )
-          AND(H.FAM_REQ_OWNER = '${OwnerID}'  OR '${OwnerID}' IS NULL )
-          AND (H.FRH_FAM_NO >= '${FAMNo_From}' OR '${FAMNo_From}' IS NULL)
-          AND (H.FRH_FAM_NO <= '${FamNo_To}' || 'Z' OR '${FamNo_To}' IS NULL)
-          AND (FAM_REQ_STATUS NOT IN ('FLTR001','FLLS001','FLWO001','FLDN001','FLLD001','FLSC001') )
-          AND (FFM_FLG NOT IN ('R','F','D') OR FFM_FLG IS NULL)
-        UNION ALL
-        SELECT
-          CF.FACTORY_NAME AS FACTORY ,
-          H.FAM_ASSET_CC,
-          H.FRH_FAM_NO,
-          1 AS iSEQ,
-          D.FRD_ASSET_CODE,
-          D.FRD_COMP,
-          D.FRD_OWNER_CC,
-          D.FRD_ASSET_NAME,
-          D.FRD_CODE_NO,
-          D.FRD_BOI_PROJ,
-          D.FRD_QTY,
-          D.FRD_INV_NO,
-          TO_CHAR( D.FRD_INV_DATE, 'DD/MM/YYYY' ) AS FRD_INV_DATE,
-          TRIM(TO_CHAR(D.FRD_ACQ_COST, '999,999,999,999,999,999,999.99')) AS FRD_ACQ_COST,
-          D.FRD_BOOK_VALUE,
-          D.FRD_NEW_CC,
-          R.FRT_TO_PROJ,
-          D.FRD_REMARK,
-          M.FFM_FLG,
-          H.FAM_REQ_STATUS
-        FROM
-        FAM_REQ_HEADER H
-          LEFT JOIN FAM_REQ_DETAIL D ON   D.FRD_FAM_NO = H.FRH_FAM_NO
-          LEFT JOIN FAM_REQ_TRANSFER R ON R.FRT_FAM_NO = H.FRH_FAM_NO
-        LEFT JOIN CUSR.CU_FACTORY_M CF ON CF.FACTORY_CODE = H.FAM_FACTORY
-        LEFT JOIN FAM_FLOW_MASTER M ON M.FFM_CODE = H.FAM_REQ_STATUS
-        WHERE 1=1
-          AND(CF.FACTORY_CODE = '${Fac}' OR '${Fac}' IS NULL )
-          AND(D.FRD_OWNER_CC = '${CC}' OR '${CC}' IS NULL )
-          AND(H.FAM_REQ_TYPE = '${RequestType}' OR '${RequestType}' IS NULL )
-          AND(H.FAM_REQ_OWNER = '${OwnerID}'  OR '${OwnerID}' IS NULL )
-          AND (H.FRH_FAM_NO >= '${FAMNo_From}' OR '${FAMNo_From}' IS NULL)
-          AND (H.FRH_FAM_NO <= '${FamNo_To}' || 'Z' OR '${FamNo_To}' IS NULL)
-          AND (FAM_REQ_STATUS NOT IN ('FLTR001','FLLS001','FLWO001','FLDN001','FLLD001') )
-          AND (FFM_FLG NOT IN ('R','F','D') OR FFM_FLG IS NULL)
-        )
-    ORDER BY 1,2,3
-         
-     `;
-    const result = await connect.execute(query);
-    connect.release();
-    res.json(result.rows);
-  } catch (error) {
-    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  module.exports.getMailshow = async (req, res) => {
+    try {
+      const { Name } = req.body;
+      const connect = await oracledb.getConnection(AVO);
+      const query = `
+        SELECT DISTINCT FPM_EMAIL , USER_FNAME ||' '|| USER_SURNAME  
+        FROM FAM_PERSON_MASTER 
+        LEFT JOIN CUSR.CU_USER_M cum ON USER_LOGIN = FPM_USER_LOGIN 
+        WHERE FPM_USER_LOGIN ='${Name}'
+      `;
+      const result = await connect.execute(query);
+      connect.release();
+      let Email = []
+      let dataName = []
+    for (let i = 0; i < result.rows.length; i++) {
+      let F_Email = result.rows[i][0];
+      let F_Name = result.rows[i][1];
+      Email.push(F_Email)
+      dataName.push(F_Name)
   }
-};
-   
-  module.exports.getRequstType = async function (req, res) {
-    try {
-      const connect = await oracledb.getConnection(AVO);
-      const query = `
-      SELECT T.FCM_CODE,T.FCM_DESC FROM FAM_CODE_MASTER T WHERE T.FCM_GROUP_ID = 'GP01' AND T.FCM_STATUS = 'A' ORDER BY T.FCM_SORT,T.FCM_DESC
-       `;
-      const result = await connect.execute(query);
-      connect.release();
-      res.json(result.rows);
+      res.status(200).json({ dataEmail: Email, rowName : dataName ,message : "Email sent successfully" });
     } catch (error) {
-      console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
-    }
-  };
-   
-  module.exports.getFAM_FILE_ATTACH = async function (req, res) {
-    try {
-       const{FamNo}=  req.body;
-      const connect = await oracledb.getConnection(AVO);
-      const query = `
-      SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
-      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='REQUEST'                                                                      
-      ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
-       `;
-      const result = await connect.execute(query);
-      connect.release();
-      res.json(result.rows);
-    } catch (error) {
-      console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+      console.error("Error sending email:", error);
+      res.status(500).json({ error: "An error occurred while sending email" });
     }
   };
 
-  module.exports.getFAM_FILE_DATA = async function (req, res) {
-
+  module.exports.getType_mail = async (req, res) => {
     try {
-       const{FamNo,ATT_FROM}=  req.body;
+      const { Type_show } = req.body;
       const connect = await oracledb.getConnection(AVO);
       const query = `
-      SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
-      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='${ATT_FROM}'                                                                      
-      ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
-       `;
-      const result = await connect.execute(query);
-      connect.release();
-      res.json(result.rows);
-    } catch (error) {
-      console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
-    }
-  };
+      SELECT FCM_DESC FROM FAM_CODE_MASTER WHERE FCM_CODE ='${Type_show}'
+      `;
   
-  module.exports.getWeight_Size_Unit_INV = async function (req, res) {
+      const result = await connect.execute(query);
+    
+      connect.release();
+      res.status(200).json(result.rows);
+    } catch (error) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ error: "An error occurred while sending email" });
+    }
+  };
+
+  // module.exports.getFile_Mail = async (req, res) => {
+  //   try {
+  //     const { Type_show } = req.body;
+ 
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT COUNT(FFA_FILE_SERVER)  FROM FAM_FILE_ATTACH ffa WHERE FFA_FAM_NO = '${Type_show}'
+  //     `;
+  
+  //     const result = await connect.execute(query);
+    
+  //     connect.release();
+  //     res.status(200).json(result.rows);
+  //   } catch (error) {
+  //     console.error("Error sending email:", error);
+  //     res.status(500).json({ error: "An error occurred while sending email" });
+  //   }
+  // };
+  module.exports.getName_To = async (req, res) => {
     try {
-       const{famno}=  req.body;
+      const { name } = req.body;
+ 
       const connect = await oracledb.getConnection(AVO);
       const query = `
-      SELECT
-	FRD_ENV_WEIGHT,
-	FRD_ENV_SIZE,
-	FRD_PLN_UNITPRICE,
-	FRD_SHP_INVOICE
-FROM
-	FAM_REQ_DETAIL
-WHERE
-	FRD_FAM_NO = '${famno}'
-       `;
+      SELECT USER_TITLE || ' ' || USER_FNAME || ' ' || USER_SURNAME  FROM CUSR.CU_USER_M WHERE USER_LOGIN = '${name}'
+      `;
+  
       const result = await connect.execute(query);
+    
       connect.release();
-      res.json(result.rows);
+      res.status(200).json(result.rows);
     } catch (error) {
-      console.error("getWeight_Size_Unit_INV error:", error.message);
+      console.error("Error sending email:", error);
+      res.status(500).json({ error: "An error occurred while sending email" });
+    }
+  };
+  // module.exports.getStatus = async (req, res) => {
+  //   console.log("sts555555555555555")
+  //   try { 
+  //     const { sts } = req.body;
+
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT FFM_DESC  FROM FAM_FLOW_MASTER WHERE FFM_CODE = '${sts}'
+  //     `;
+  // console.log(query,"data:::::")
+  //     const result = await connect.execute(query);
+    
+  //     connect.release();
+  //     res.status(200).json(result.rows);
+  //   } catch (error) {
+  //     console.error("Error getStatus:", error);
+  //     res.status(500).json({ error: "An error occurred while sending email" });
+  //   }
+  // };
+
+  module.exports.getStatus_Mail = async (req, res) => {
+    try {
+      const { sts } = req.body;
+        const connect = await oracledb.getConnection(AVO);
+        const query = `
+        SELECT FFM_DESC  FROM FAM_FLOW_MASTER WHERE FFM_CODE = '${sts}'
+        `;
+  
+      const result = await connect.execute(query);
+    
+      connect.release();
+      res.status(200).json(result.rows);
+    } catch (error) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ error: "An error occurred while sending email" });
+    }
+  };
+  // เพิ่มล่าสุดวันที่ 04/04/2024
+  module.exports.get_req_mail = async (req, res) => {
+    try {
+      const { Name } = req.body;
+      const connect = await oracledb.getConnection(AVO);
+      const query = `
+      SELECT DISTINCT FPM_EMAIL , USER_FNAME ||' '|| USER_SURNAME  
+      FROM FAM_PERSON_MASTER 
+      LEFT JOIN CUSR.CU_USER_M cum ON USER_LOGIN = FPM_USER_LOGIN 
+      WHERE FPM_USER_LOGIN ='${Name}'
+      `;
+  
+      const result = await connect.execute(query);
+    
+      connect.release();
+      res.status(200).json(result.rows);
+    } catch (error) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ error: "An error occurred while sending email" });
     }
   };
