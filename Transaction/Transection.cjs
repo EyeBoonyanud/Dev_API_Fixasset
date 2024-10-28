@@ -3,7 +3,7 @@ const oracledb = require("oracledb");
 const multer = require("multer");
 const path = require("path");
 // const uploadsPath = path.join(__dirname, "../uploads");
-const uploadsPath = path.join("/data/eye/FixAsset-System/FixAssetSystem/FixAsset/Uploads/");
+const uploadsPath = path.join("/data/eye/FixAsset-System-API/Dev_API_Fixasset/Uploads/");
 const app = express();
 const port = 5000;
 app.use(express.json());

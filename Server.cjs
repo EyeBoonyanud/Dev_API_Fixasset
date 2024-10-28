@@ -295,11 +295,11 @@ app.post("/sendEmail", async (req, res) => {
     res.status(500).json({ error: "An error occurred while sending email" });
   }
 });
-app.use('/downloads', express.static(__dirname));
+app.use('/downloads', express.static('/data/eye/FixAsset-System-API/Dev_API_Fixasset/Uploads/'));
 //getFAM_FILE_ATTACH
 app.get('/downloads', (req, res) => {
   const fileName = req.query.filename;
-  const filePath = path.join(__dirname, '../Uploads', fileName);
+  const filePath = path.join('/data/eye/FixAsset-System-API/Dev_API_Fixasset/Uploads/', fileName);
   // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
   if (fs.existsSync(filePath)) {
     // ส่งไฟล์กลับไปยังผู้ใช้
@@ -313,7 +313,7 @@ app.get('/downloads', (req, res) => {
 app.delete('/deleteFile', (req, res) => {
 
   const fileName = req.query.data; 
-  const filePath = path.join(__dirname, '../Uploads', fileName);
+  const filePath = path.join('/data/eye/FixAsset-System-API/Dev_API_Fixasset/Uploads/', fileName);
   fs.unlink(filePath, (err) => {
       if (err) {
           console.error(err);
