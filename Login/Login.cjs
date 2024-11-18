@@ -6,16 +6,6 @@ const app = express();
 
 
 app.use(express.json());
-
-// oracledb.initOracleClient({
-//   tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
-// });
-
-// const CUSR = {
-//   user: process.env.USER_CUSR,
-//   password: process.env.PASS_CUSR,
-//   connectString: process.env.CON_CUSR,
-// };
 const CUSR = {
   user: "cusr",
   password: "cusr",
