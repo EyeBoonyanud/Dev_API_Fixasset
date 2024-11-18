@@ -4782,3 +4782,25 @@ module.exports.update_closejob_lending = async function (req, res) {
     res.status(500).send("Internal Server Error");
   }
 };
+module.exports.update_period_fac_mana_returndate = async function (req, res) {
+  try {
+    const { tranfer,returndate} = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_LENDING 
+    SET 
+    FRL_RETURN_DATE = TO_DATE(:returndate, 'DD/MM/YYYY')
+    WHERE FRL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,returndate
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("update_period_fac_mana_returndate:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
