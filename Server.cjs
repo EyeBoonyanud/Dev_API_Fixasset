@@ -23,6 +23,7 @@ const Mail =require("./Mail/Mail.cjs")
 oracledb.initOracleClient({
 tnsAdmin: process.env.TNS_ADMIN,
 });
+const PathUploads = '/data/App_API/FixAsset-System-API/Dev_API_Fixasset/Uploads/'
 
 
 app.use((req, res, next) => {
@@ -263,11 +264,11 @@ app.post("/sendEmail", async (req, res) => {
     res.status(500).json({ error: "An error occurred while sending email" });
   }
 });
-app.use('/downloads', express.static('/data/eye/FixAsset-System-API/Dev_API_Fixasset/Uploads/'));
+app.use('/downloads', express.static(PathUploads));
 //getFAM_FILE_ATTACH
 app.get('/downloads', (req, res) => {
   const fileName = req.query.filename;
-  const filePath = path.join('/data/eye/FixAsset-System-API/Dev_API_Fixasset/Uploads/', fileName);
+  const filePath = path.join(PathUploads, fileName);
   // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
   if (fs.existsSync(filePath)) {
     // ส่งไฟล์กลับไปยังผู้ใช้
@@ -281,7 +282,7 @@ app.get('/downloads', (req, res) => {
 app.delete('/deleteFile', (req, res) => {
 
   const fileName = req.query.data; 
-  const filePath = path.join('/data/eye/FixAsset-System-API/Dev_API_Fixasset/Uploads/', fileName);
+  const filePath = path.join(PathUploads, fileName);
   fs.unlink(filePath, (err) => {
       if (err) {
           console.error(err);
