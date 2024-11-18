@@ -136,7 +136,7 @@ const CUSR = {
       const { famno } = req.body;
       const connect = await oracledb.getConnection(AVO);
       const query = `
-      SELECT FAM_MGR_DEPT ,
+     SELECT FAM_MGR_DEPT ,
       FAM_MGR_JUD,
       TO_CHAR(FAM_MGR_DATE, 'DD/MM/YYYY'),
       FAM_MGR_CMMT,
@@ -151,7 +151,7 @@ const CUSR = {
       FAM_BOI_CHK_CMMT,
       FAM_BOI_MGR_BY,
       FAM_BOI_MGR_JUD,
-      TO_CHAR(FAM_BOI_CHK_DATE, 'DD/MM/YYYY'),
+      TO_CHAR(FAM_BOI_MGR_DATE, 'DD/MM/YYYY'),
       FAM_BOI_MGR_CMMT,
       FAM_FM_BY,
       FAM_FM_JUD,
@@ -177,7 +177,9 @@ const CUSR = {
       FAM_SERVICE_CLOSE_JUD,
       TO_CHAR(FAM_SERVICE_CLOSE_DATE, 'DD/MM/YYYY'),
       FAM_SERVICE_CLOSE_CMMT,
-      TO_CHAR(FAM_ACC_CHK_CER_DATE, 'DD/MM/YYYY')
+      TO_CHAR(FAM_ACC_CHK_CER_DATE, 'DD/MM/YYYY'),
+       FAM_ACC_CLOSE_CMMT,FAM_ACC_CLOSE_By,
+        TO_CHAR(FAM_ACC_CLOSE_DATE, 'DD/MM/YYYY')
       FROM FAM_REQ_HEADER WHERE FRH_FAM_NO = '${famno}'
       `;
   
@@ -303,4 +305,3 @@ const CUSR = {
       res.status(500).json({ error: "An error occurred while sending email" });
     }
   };
-  

@@ -268,105 +268,6 @@ module.exports.search = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-// Serach Approve อันเก่า ก่อน upadte 15/10/2024
-// module.exports.search2 = async function (req, res) {
-//   try {
-//     const {
-//       UserLogin,
-//       FacCode,
-//       DeptCode,
-//       FamNo,
-//       FamTo,
-//       Costcenter,
-//       // FixAsset,
-//       ReType,
-//       ReDate,
-//       ReDateTo,
-//       sts,
-//       cost_center
-//     } = req.body;
-//     console.log(  UserLogin,
-//       FacCode,
-//       DeptCode,
-//       FamNo,
-//       FamTo,
-//       Costcenter,
-//       // FixAsset,
-//       ReType,
-//       ReDate,
-//       ReDateTo,
-//       sts,"SEARCH")
-   
-//     const connect = await oracledb.getConnection(AVO);
-//     const query = `
-//       SELECT
-//     DISTINCT M.FACTORY_NAME AS FACTORY,
-//     T.FAM_REQ_OWNER_CC AS COSTCENTER,
-//     T.FRH_FAM_NO AS FAMNO,
-//     TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS ISSUEDATE,
-//     T.FAM_REQ_BY AS ISSUEBY,
-//     R.FCM_DESC AS RETYPE,
-// --(SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
-//     F.FFM_DESC AS STATUS
-//   FROM
-//     FAM_REQ_HEADER T
-//   LEFT JOIN CUSR.CU_FACTORY_M M ON M.FACTORY_CODE = T.FAM_FACTORY
-//   LEFT JOIN FAM_CODE_MASTER R ON R.FCM_CODE = T.FAM_REQ_TYPE
-//   LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
-//   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
-//   LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
-//   LEFT JOIN FAM_REQ_LENDING L ON L.FRL_FAM_NO = T.FRH_FAM_NO
-//   LEFT JOIN FAM_REQ_SCRAP S ON S.FRSC_FAM_NO  =T.FRH_FAM_NO 
-//   LEFT JOIN FAM_REQ_SALES SA ON SA.FRSL_FAM_NO =T.FRH_FAM_NO 
-//   WHERE  1=1
-//   AND((T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS IN ('FLTR002','FLWO002','FLLS002','FLDN002','FLLD002','FLSC002','FLSL002'))
-//     OR (T.FAM_SERVICE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR003','FLWO003','FLLS003','FLDN003','FLLD003','FLSC003','FLSL003'))
-//     OR (T.FAM_BOI_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR004','FLWO004','FLLS004','FLDN004','FLLD004','FLSC004','FLSL004'))
-//     OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR005','FLWO005','FLLS005','FLDN005','FLLD005','FLSC005','FLSL005'))
-//     OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR006','FLWO006','FLLS006','FLDN006','FLLD006','FLSC006','FLSL006'))
-//     OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR007','FLWO007','FLLS007','FLDN007','FLLD007','FLSC007','FLSL007'))
-//     OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR008','FLWO008','FLLS008','FLDN008','FLLD008','FLSC008','FLSL008'))
-//     OR ( A.FRT_RECEIVE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR009'))
-//     OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR010','FLWO010','FLLS010','FLDN010','FLLD010','FLSC010','FLSL021'))
-//     OR (T.FAM_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR011','FLWO011','FLLS011','FLDN011','FLLD011','FLSC011','FLSL022'))
-//     OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR012','FLWO012','FLLS012','FLDN012','FLLD012','FLSC012','FLSL023'))
-//     OR (L.FRL_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLLD009'))
-//     OR (S.FRSC_ENV_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSC009'))
-//     OR (S.FRSC_PLN_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSC100'))
-//     OR (S.FRSC_SHP_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSC101'))
-//     OR (SA.FRSL_ENV1_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL009'))
-//     OR (SA.FRSL_PLN1_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL010'))
-//     OR (SA.FRSL_IMP1_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL011'))
-//     OR (SA.FRSL_BOI1_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL012'))
-//     OR (SA.FRSL_IMP2_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL013'))
-//     OR (SA.FRSL_PLN2_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL014'))
-//     OR (SA.FRSL_ENV2_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL015'))
-//     OR (SA.FRSL_BOI2_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL016'))
-//     OR (SA.FRSL_ENV3_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL017'))
-//     OR (SA.FRSL_PLN3_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL018'))
-//     OR (SA.FRSL_SHP_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL019'))
-//     OR (SA.FRSL_PLN4_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL020'))
-//     OR (T.FAM_REQ_STATUS IN ('FLLD100')AND T.FAM_REQ_CC ='${cost_center}'))
-//     AND (T.FAM_FACTORY = '${FacCode}' OR '${FacCode}' IS NULL)
-//     AND (TRIM(T.FAM_REQ_DEPT) = '${DeptCode}' OR '${DeptCode}' IS NULL)
-//     AND (T.FRH_FAM_NO >= '${FamNo}' OR '${FamNo}' IS NULL)
-//     AND (T.FRH_FAM_NO <= '${FamTo}' OR '${FamTo}'IS NULL)
-//     AND (TRIM(T.FAM_ASSET_CC) = '${Costcenter}' OR '${Costcenter}' IS NULL)
-//     AND (T.FAM_REQ_TYPE = '${ReType}' OR '${ReType}' IS NULL)
-//    -- AND ( 'fixcode' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('fixcode', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('fixcode', ',') + 1))
-//     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${ReDate}' OR '${ReDate}' IS NULL)
-//     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${ReDateTo}' OR '${ReDateTo}' IS NULL)
-//     AND  ('${sts}' IS NULL OR F.FFM_DESC = '${sts}')
-//     ORDER BY T.FRH_FAM_NO DESC
-//          `;
-//     const result = await connect.execute(query);
-//     console.log(query,"query")
-//     connect.release();
-//     res.json(result.rows);
-//   } catch (error) {
-//     console.error("ข้อผิดพลาดในการค้นหาข้อมูล search2:", error.message);
-//   }
-// };
 
 
 // Update  Serach Approve 
@@ -614,12 +515,7 @@ module.exports.cost_insert = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-// Fixed Asset Group
-// SELECT T.FRC_CHK_PREFIX AS inpCode,
-// T.FRC_GROUP AS ShowDesc
-// FROM FAM_RUNNING_CONTROL T
-// WHERE T.FRC_FACTORY = '${Asset_group}'
-// ORDER BY T.FRC_FACTORY,T.FRC_CHK_PREFIX,T.FRC_GROUP
+
 module.exports.fix_group = async function (req, res) {
   try {
     const { Asset_group } = req.body;

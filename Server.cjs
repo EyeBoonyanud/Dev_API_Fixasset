@@ -33,12 +33,9 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 app.use(express.json({ type: 'text/html' }));
-// app.get("/Login", Login.login);
 app.post("/Login", Login.login);
 app.get("/getmenu", Login.menu);
 app.get("/getmainmenu",Login.mainmenu);
-
-
 app.get("/gethome_page",Transaction.gethome_page);
 app.post("/getsubmenu",Login.submenu);
 app.get("/getemp",Transaction.emp);
@@ -53,16 +50,13 @@ app.post("/getstatus",Transaction.status);
 app.post("/getsearch",Transaction.search);
 app.post("/getsearch2",Transaction.search2);
 app.post("/search3",Transaction.search3);
-
 app.post("/getfixcode",Transaction.fixcode);
 app.post("/getfac_insert",Transaction.fac_insert);
 app.post("/getcost_insert",Transaction.cost_insert);
 app.post("/getfix_group",Transaction.fix_group);
 app.post("/getid_service",Transaction.id_service);
 app.post("/getfind_service",Transaction.find_service);
-//
 app.post("/find_fix_groub",Transaction.find_fix_groub);
-///
 app.post("/getfamno",Transaction.fam_no);
 app.post("/get_gen_famno",Transaction.insert_tranfer);
 app.post("/create_date",Transaction.create_date);
@@ -70,7 +64,6 @@ app.post("/update_date",Transaction.update_date);
 app.post("/get_asset_transfer",Transaction.insert_asset_transfer);
 app.post("/ins_REQ_DETAIL",Transaction.insert_FAM_REQ_DETAIL);
 app.post("/ins_from_Boi",Transaction.ins_from_Boi);
-// app.get("/select_BOI_from",Transaction.select_BOI_from);
 app.post("/select_BOI_from",Transaction.select_BOI_from);
 app.post("/new_owner",Transaction.new_owner);
 app.get("/cc_for_transfer",Transaction.cc);
@@ -95,18 +88,14 @@ app.post("/update_for_date_trans",Transaction.update_for_date_trans);
 app.post("/searchFamMaster",Transaction.searchFamMaster);
 app.post("/namefile",Transaction.namefile);
 app.post("/find_asset_fixdata",Transaction.find_asset_fixdata);
-//Donation 
 app.post("/date_certificate",Transaction.date_certificate);
 app.post("/getEditdate_certaficate",Transaction.getEditdate_certaficate);
-
-//Lending
 app.post("/insert_leading",Transaction.insert_leading)
 app.post("/getEdit_lenging",Transaction.getEdit_lenging);
 app.post("/update_lending",Transaction.update_lending);
 app.post("/update_leading_acc_return",Transaction.update_leading_acc_return);
 app.post("/update_leading_own_return",Transaction.update_leading_own_return);
 app.post("/update_for_nullLending",Transaction.update_for_nullLending);
-//Scrap 
 app.post("/pte_env_data",Transaction.pte_env_data);
 app.post("/pln_staff_data",Transaction.pln_staff_data);
 app.post("/shipping_data",Transaction.shipping_data);
@@ -116,13 +105,7 @@ app.post("/getEdit_scrap",Transaction.getEdit_scrap);
 app.post("/update_scrap_pte",Transaction.update_scrap_pte);
 app.post("/update_scrap_pln",Transaction.update_scrap_pln);
 app.post("/update_scrap_shipping",Transaction.update_scrap_shipping);
-// app.post("/update_scrap_shipping",Transaction.update_scrap_shipping);
-app.post("/get_weights",Transaction.get_weights);
-app.post("/get_size",Transaction.get_size);
-app.post("/get_unitprice",Transaction.get_unitprice);
-app.post("/get_inv_no",Transaction.get_inv_no);
 app.post("/update_for_nullScarp",Transaction.update_for_nullScarp);
-//sale
 app.post("/import_boi",Transaction.import_boi);
 app.post("/update_sale",Transaction.update_sale);
 app.post("/insert_sale",Transaction.insert_sale);
@@ -144,7 +127,6 @@ app.post("/insert_weight",Transaction.insert_weight);
 app.post("/insert_size",Transaction.insert_size);
 app.post("/insert_unit_price",Transaction.insert_unit_price);
 app.post("/insert_invoice",Transaction.insert_invoice);
-//Period
 app.get("/Select_Period",Transaction.Select_Period);
 app.post("/update_periodall",Transaction.update_periodall);
 app.get("/SelectMonthly",Transaction.SelectMonthly);
@@ -154,18 +136,7 @@ app.post("/GetMaxReturnDate",Transaction.GetMaxReturnDate);
 app.post("/GetReturnDate",Transaction.GetReturnDate);
 app.post("/update_owner_return",Transaction.update_owner_return);
 app.post("/update_closejob_lending",Transaction.update_closejob_lending);
-
-
-
-
-
-
-
-
-
-
-
-//MAY 
+app.post("/update_period_fac_mana_returndate",Transaction.update_period_fac_mana_returndate);
 app.post("/ins_FILE_FROM_REQUEST", Transaction.insertFile_from_request); 
 app.post("/get_seq_request", Transaction.get_run_seq_request);
 app.post("/get_run_owner_file", Transaction.get_run_owner_file);
@@ -173,11 +144,8 @@ app.post("/get_run_owner_file_return", Transaction.get_run_owner_file_return);
 app.post("/get_run_owner_file_pte", Transaction.get_run_owner_file_pte);
 app.post("/get_run_owner_file_pln", Transaction.get_run_owner_file_pln);
 app.post("/get_run_owner_file_shipping", Transaction.get_run_owner_file_shipping);
-
 app.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", Transaction.insertFile_from_request_to_project_me);
-//
 app.post("/new_boi",Transaction.new_boi);
-//
 app.post("/getEdit_request_show",Transaction.getEdit_Request_Show);
 app.post("/getEdit_FixAsset",Transaction.getEdit_FixAsset);
 app.get("/getEdit_FileUpload",Transaction.getEdit_FileUpload);
@@ -212,7 +180,7 @@ app.get("/get_BOI_project",Transaction.get_BOI_project);
 app.post("/search_BOI_project",Transaction.search_BOI_project);
 app.post("/Search_BOI_Maintain_Edit",Transaction.getEdit_BOI_Show);
 app.get("/getlevel",Transaction.level_person_maintain);
-app.get("/get_BOI_project_name",Transaction.get_BOI_project_name); 
+app.get("/get_BOI_project_name",Transaction.get_BOI_project_name);
 app.post("/getCountTransfer",Homepage.getCountTransfer);
 app.post("/getCountScrap",Homepage.getCountScrap);
 app.post("/getCountSale",Homepage.getCountSale);

@@ -17,17 +17,7 @@ const AVO = {
   connectString: "TCIX01",
 };
 
-const QAD = {
-  user: "qad",
-  password: "qad",
-  connectString: "TCIX01",
-};
 
-const CUSR = {
-  user: "cusr",
-  password: "cusr",
-  connectString: "TCIX01",
-};
 /// May
 module.exports.getFamDetailReport = async function (req, res) {
   try {
