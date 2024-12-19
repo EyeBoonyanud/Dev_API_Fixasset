@@ -48,7 +48,8 @@ module.exports.getData_Hearder_show_PDF = async function (req, res) {
     TO_CHAR(FRSL_PLN4_DATE,'DD/MM/YYYY') AS SUBMIT_DATE_SALE,
     F.FAM_ACC_REC_BY AS SCRAP_CHECK,
     TO_CHAR(F.FAM_ACC_REC_DATE,'DD/MM/YYYY')  AS SUMBIT_DATE_SCRAP,
-    MS.CC_CTR||' : '||MS.CC_DESC 
+    MS.CC_CTR||' : '||MS.CC_DESC,
+    F.FAM_SERVICE_DEPT AS SERVICE_DEPT
     
     FROM FAM_REQ_HEADER F
     LEFT JOIN CUSR.CU_USER_M C ON C.USER_LOGIN = F.FAM_REQ_BY
@@ -77,20 +78,20 @@ module.exports.getData_Loop_show_Detail = async function (req, res) {
     const connect = await oracledb.getConnection(AVO);
     const{FamNo}=  req.body;
     const query = `
-    SELECT
-    D.FRD_ASSET_CODE ,
-    D.FRD_COMP ,
-    D.FRD_OWNER_CC ,
-    D.FRD_ASSET_NAME ,
-    D.FRD_BOI_PROJ ,
-    D.FRD_QTY ,
-    D.FRD_INV_NO ,
-    D.FRD_ACQ_COST ,
-    D.FRD_BOOK_VALUE ,
-    D.FRD_NEW_CC
-    FROM FAM_REQ_DETAIL D
-    WHERE D.FRD_FAM_NO = '${FamNo}'
-    ORDER BY D.FRD_ASSET_CODE ,D.FRD_COMP ASC
+   SELECT
+      D.FRD_ASSET_CODE ,
+     CAST(D.FRD_COMP AS INTEGER) AS FRD_COMP ,
+      D.FRD_OWNER_CC ,
+      D.FRD_ASSET_NAME ,
+      D.FRD_BOI_PROJ ,
+      D.FRD_QTY ,
+      D.FRD_INV_NO ,
+      D.FRD_ACQ_COST ,
+      D.FRD_BOOK_VALUE ,
+      D.FRD_NEW_CC
+      FROM FAM_REQ_DETAIL D
+      WHERE D.FRD_FAM_NO = '${FamNo}'
+      ORDER BY D.FRD_ASSET_CODE ,FRD_COMP ASC
   `;
   const result = await connect.execute(query);
   connect.release();

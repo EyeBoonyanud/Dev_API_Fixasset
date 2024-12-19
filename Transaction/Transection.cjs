@@ -4699,3 +4699,17 @@ module.exports.update_closejob_lending = async function (req, res) {
     res.status(500).send("Internal Server Error");
   }
 };
+module.exports.dataFixasset_show = async function (req, res) {
+  try {
+    const { tranfer } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+   SELECT * FROM FAM_REQ_DETAIL frd  WHERE FRD_FAM_NO  ='${tranfer}'
+           `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("GetReturnDate", error.message);
+  }
+};

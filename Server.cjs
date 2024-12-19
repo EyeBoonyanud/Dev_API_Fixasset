@@ -226,6 +226,7 @@ app.post("/getData_show_number_left",PDF_Fammaster.getData_show_number_left);
 app.post("/getData_show_number_right",PDF_Fammaster.getData_show_number_right);
 app.post("/SumCost",PDF_Fammaster.SumCost);
 app.post("/getSum_Data_total",PDF_Fammaster.getSum_Data_total);
+app.post("/dataFixasset_show",Transaction.dataFixasset_show);
 
 //Mail
 app.post("/getMailshow",Mail.getMailshow);
