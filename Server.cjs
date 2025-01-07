@@ -181,6 +181,8 @@ app.get("/get_BOI_project",Transaction.get_BOI_project);
 app.post("/search_BOI_project",Transaction.search_BOI_project);
 app.post("/Search_BOI_Maintain_Edit",Transaction.getEdit_BOI_Show);
 app.get("/getlevel",Transaction.level_person_maintain);
+app.post("/insert_issue",Transaction.insert_issue);
+app.post("/insert_approve",Transaction.insert_approve);
 app.get("/get_BOI_project_name",Transaction.get_BOI_project_name);
 app.post("/getCountTransfer",Homepage.getCountTransfer);
 app.post("/getCountScrap",Homepage.getCountScrap);

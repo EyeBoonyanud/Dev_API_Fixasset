@@ -24,8 +24,8 @@ module.exports.login = async (req, res) => {
     FROM CU_USER_M T
     INNER JOIN CU_ROLE_USER RU ON RU.USER_LOGIN = T.USER_LOGIN
     INNER JOIN CU_ROLE_M R ON R.ROLE_ID = RU.ROLE_ID
-    WHERE T.USER_LOGIN = '${User}'
-    AND T.USER_PASSWORD = '${Password}'
+    WHERE  UPPER(T.USER_LOGIN)= UPPER('${User}')
+    AND UPPER(T.USER_PASSWORD) = UPPER('${Password}')
     AND R.SYSTEM_ID = '65'
     `;
 
