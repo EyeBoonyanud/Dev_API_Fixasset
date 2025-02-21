@@ -3367,10 +3367,15 @@ module.exports.fix_code_find = async function (req, res) {
     WHERE F.FRD_ASSET_CODE  = :assetcode 
     AND T.FAM_REQ_STATUS NOT IN ('FLTR013', 'FLTR999', 
     'FLDN013', 'FLDN999',
-  'FLLD013', 'FLLD999', 
-  'FLLS013', 'FLLS999',
-  'FLSC013', 'FLSC999', 
-  'FLWO013', 'FLWO999')
+   'FLDN013', 'FLDN999',
+    'FLLD013', 'FLLD999', 
+    'FLLS013', 'FLLS999',
+    'FLSC013', 'FLSC999', 
+    'FLWO013', 'FLWO999',
+    'FLLD899','FLLS899',
+    'FLWO899','FLSC899',
+    'FLTR899','FLDN899',
+    'FLSL899')
     ORDER BY FRD_COMP ASC
            `;
     const data = {
@@ -3394,11 +3399,16 @@ module.exports.get_COMP = async function (req, res) {
     INNER JOIN AVO.FAM_REQ_DETAIL FD ON FD.FRD_FAM_NO = FH.FRH_FAM_NO 
     WHERE SUBSTR(FD.FRD_FAM_NO, 1, 6) = SUBSTR('${fam_no}', 1, 6)
         AND FH.FAM_REQ_STATUS NOT IN ('FLTR013', 'FLTR999', 
-        'FLDN013', 'FLDN999',
+         'FLDN013', 'FLDN999',
       'FLLD013', 'FLLD999', 
       'FLLS013', 'FLLS999',
       'FLSC013', 'FLSC999', 
-      'FLWO013', 'FLWO999')
+      'FLWO013', 'FLWO999',
+      'FLWO013', 'FLWO999',
+      'FLLD899','FLLS899',
+      'FLWO899','FLSC899',
+      'FLTR899','FLDN899',
+      'FLSL899')
            `;
     const result = await connect.execute(query);
     connect.release();
